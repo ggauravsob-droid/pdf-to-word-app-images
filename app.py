@@ -5,7 +5,8 @@ from docx import Document
 import os
 import re
 import tempfile
-from concurrent.futures import ProcessPoolExecutor
+# YAHAN ProcessPoolExecutor KI JAGAH ThreadPoolExecutor USE KIYA HAI
+from concurrent.futures import ThreadPoolExecutor
 
 st.set_page_config(page_title="PDF to Word (Hindi+English)", page_icon="📄")
 st.title("📄 Smart Scanned PDF Converter")
@@ -44,7 +45,8 @@ if uploaded_file is not None:
                     total_pages = len(image_paths)
                     progress_bar = st.progress(0)
                     
-                    with ProcessPoolExecutor() as executor:
+                    # YAHAN BHI BADA BADLAAV HAI (ThreadPoolExecutor)
+                    with ThreadPoolExecutor() as executor:
                         extracted_texts = list(executor.map(process_single_page, image_paths))
                     
                     for i, text in enumerate(extracted_texts):
